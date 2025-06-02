@@ -102,31 +102,63 @@ function shuffleArray(array) {
 
 function generateTaskSequence(type) {
     questionSequence = [];
+
     const isPractice = type === 'practice';
     const total = isPractice ? 66 : 33;
-    const prospectiveEach = isPractice ? 2 : 5;
 
-    // 加入固定數量的前瞻性任務
+    // 主任務 & 前瞻性題數計算
+    const mainCount = Math.floor(total / 1.1);        // 60 or 30
+    const prospectiveCount = total - mainCount;       // 6 or 3
+    const prospectiveEach = Math.floor(prospectiveCount / 3); // 2 or 1
+
+    // === 加入前瞻性任務 ===
     const prospectiveItems = Object.keys(prospectiveMemory);
     for (const item of prospectiveItems) {
         for (let i = 0; i < prospectiveEach; i++) {
-            questionSequence.push({ item, category: prospectiveMemory[item].cat, isProspective: true });
+            questionSequence.push({
+                item,
+                category: prospectiveMemory[item].cat,
+                isProspective: true
+            });
         }
     }
 
-    const remaining = total - questionSequence.length;
+    // === 主任務題目安排 ===
+    const uniqueMainItems = [...mainTasks];
+    shuffleArray(uniqueMainItems);
 
-    for (let i = 0; i < remaining; i++) {
+    let needed = mainCount;
+    const usedItems = [];
+
+    // 優先使用不重複題目
+    for (let i = 0; i < Math.min(needed, uniqueMainItems.length); i++) {
+        const item = uniqueMainItems[i];
+        const trueCat = categories[item];
+        const isCorrect = Math.random() < 0.5;
+        const wrongCats = Object.values(categories).filter(c => c !== trueCat);
+        const cat = isCorrect ? trueCat : wrongCats[Math.floor(Math.random() * wrongCats.length)];
+
+        questionSequence.push({ item, category: cat, isProspective: false });
+        usedItems.push(item);
+    }
+
+    // 不足時允許題目重複
+    needed -= usedItems.length;
+    while (needed > 0) {
         const item = mainTasks[Math.floor(Math.random() * mainTasks.length)];
         const trueCat = categories[item];
         const isCorrect = Math.random() < 0.5;
         const wrongCats = Object.values(categories).filter(c => c !== trueCat);
         const cat = isCorrect ? trueCat : wrongCats[Math.floor(Math.random() * wrongCats.length)];
+
         questionSequence.push({ item, category: cat, isProspective: false });
+        needed--;
     }
 
+    // 最後混洗整體題目
     shuffleArray(questionSequence);
 }
+
 
 function startTask(type) {
     taskType = type;
