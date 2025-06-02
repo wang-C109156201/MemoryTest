@@ -22,7 +22,16 @@ button {
   font-size: 16px;
 }
 
-#category, #item {
+#category {
+  margin: 10px;
+  padding: 20px;
+  background-color: #6fa1b2;
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+}
+
+#item {
   margin: 10px;
   padding: 20px;
   background-color: #165a71;
