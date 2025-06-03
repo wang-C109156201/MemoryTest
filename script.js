@@ -104,7 +104,7 @@ function generateTaskSequence(type) {
     questionSequence = [];
 
     const isPractice = type === 'practice';
-    const total = isPractice ? 66 : 33;
+    const total = isPractice ? 66 : 172;
 
     // 主任務 & 前瞻性題數計算
     const mainCount = Math.floor(total / 1.1);        // 60 or 30
