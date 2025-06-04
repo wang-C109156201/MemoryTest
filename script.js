@@ -155,7 +155,7 @@ function generateTaskSequence(type) {
         questionSequence.push({ item, category: cat, isProspective: false });
         needed--;
     }
-     // === 混洗順序，並避免連續商品重複 ===
+    // === 混洗順序，並避免連續商品重複 ===
     shuffleArray(questionSequence);
     avoidConsecutiveRepeats(questionSequence);
 }
@@ -243,6 +243,9 @@ function nextQuestion() {
         console.log(`第 ${currentIndex + 1} 題：${isCorrect ? '正確' : '錯誤'}`);
 
         currentIndex++;
+        // 清空畫面再進入下一題
+        document.getElementById("category").textContent = "";
+        document.getElementById("item").textContent = "";
         setTimeout(() => nextQuestion(), 1000);
     }
 
@@ -254,6 +257,9 @@ function nextQuestion() {
             logs.push({ 題號: currentIndex + 1, 題目: item, 類別: cat, 回答: '未作答', 正確與否: '錯誤', 反應時間: '3.00' });
             console.log(`第 ${currentIndex + 1} 題：超時`);
             currentIndex++;
+            // 清空畫面再進入下一題
+            document.getElementById("category").textContent = "";
+            document.getElementById("item").textContent = "";
             setTimeout(() => nextQuestion(), 1000);
         }
     }, 3000);
