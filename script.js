@@ -155,12 +155,11 @@ function generateTaskSequence(type) {
         questionSequence.push({ item, category: cat, isProspective: false });
         needed--;
     }
-
-    // === 混洗順序，並避免連續商品重複 ===
+     // === 混洗順序，並避免連續商品重複 ===
     shuffleArray(questionSequence);
-    avoidCons
-    ecutiveRepeats(questionSequence);
+    avoidConsecutiveRepeats(questionSequence);
 }
+
 function avoidConsecutiveRepeats(sequence) {
     for (let i = 1; i < sequence.length; i++) {
         if (sequence[i].item === sequence[i - 1].item) {
