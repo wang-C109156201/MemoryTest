@@ -47,7 +47,7 @@ const categories = {
     "花枝": "海鮮類", "透抽": "海鮮類", "龍蝦": "海鮮類", "鯖魚": "海鮮類", "烏魚子": "海鮮類",
 
     // 飲料類
-    "汽水": "飲料類", "果汁": "飲料類", "茶飲": "飲料類", "咖啡": "飲料類", "豆漿": "飲料類",
+    "汽水": "飲料類", "果汁": "飲料類", "綠茶": "飲料類", "咖啡": "飲料類", "豆漿": "飲料類",
     "運動飲料": "飲料類", "礦泉水": "飲料類", "啤酒": "飲料類", "紅茶": "飲料類", "乳酸飲料": "飲料類",
 
     // 乳製品
@@ -108,8 +108,8 @@ function generateTaskSequence(type) {
     const total = isPractice ? 66 : 172;
 
     // 主任務 & 前瞻性題數計算
-    const mainCount = Math.floor(total / 1.1);        // 60 or 30
-    const prospectiveCount = total - mainCount;       // 6 or 3
+    const mainCount = Math.floor(total / 1.1);        // 60 or 160
+    const prospectiveCount = total - mainCount;       // 6 or 16
     const prospectiveEach = Math.floor(prospectiveCount / 3); // 2 or 1
 
     // === 加入前瞻性任務 ===
@@ -156,8 +156,23 @@ function generateTaskSequence(type) {
         needed--;
     }
 
-    // 最後混洗整體題目
+    // === 混洗順序，並避免連續商品重複 ===
     shuffleArray(questionSequence);
+    avoidCons
+    ecutiveRepeats(questionSequence);
+}
+function avoidConsecutiveRepeats(sequence) {
+    for (let i = 1; i < sequence.length; i++) {
+        if (sequence[i].item === sequence[i - 1].item) {
+            // 找一個與前一題不同的題目來交換
+            for (let j = i + 1; j < sequence.length; j++) {
+                if (sequence[j].item !== sequence[i - 1].item) {
+                    [sequence[i], sequence[j]] = [sequence[j], sequence[i]];
+                    break;
+                }
+            }
+        }
+    }
 }
 
 
