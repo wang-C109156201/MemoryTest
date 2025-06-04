@@ -1,3 +1,4 @@
+window.startTask = startTask;
 const mainTasks = [
     // 蔬菜水果類
     "蘋果", "香蕉", "西瓜", "番茄", "高麗菜", "洋蔥", "紅蘿蔔", "馬鈴薯", "青椒", "葡萄",
