@@ -105,7 +105,7 @@ function generateTaskSequence(type) {
     questionSequence = [];
 
     const isPractice = type === 'practice';
-    const total = isPractice ? 66 : 172;
+    const total = isPractice ? 66 : 176;
 
     // 主任務 & 前瞻性題數計算
     const mainCount = Math.floor(total / 1.1);        // 60 or 160
@@ -198,11 +198,6 @@ function startTask(type) {
 }
 
 function nextQuestion() {
-    if (currentIndex >= questionSequence.length) {
-        endTest();
-        return;
-    }
-
     const q = questionSequence[currentIndex];
     const item = q.item;
     const cat = q.category;
@@ -243,10 +238,16 @@ function nextQuestion() {
         console.log(`第 ${currentIndex + 1} 題：${isCorrect ? '正確' : '錯誤'}`);
 
         currentIndex++;
+
         // 清空畫面再進入下一題
         document.getElementById("category").textContent = "";
         document.getElementById("item").textContent = "";
-        setTimeout(() => nextQuestion(), 1000);
+
+        if (currentIndex >= questionSequence.length) {
+            endTest();
+        } else {
+            setTimeout(() => nextQuestion(), 1000);
+        }
     }
 
     document.addEventListener('keydown', keyHandler);
