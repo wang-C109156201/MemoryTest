@@ -270,11 +270,11 @@ function endTest() {
     const totalSeconds = (Date.now() - totalStartTime) / 1000;
     const averageTime = responseTimes.reduce((a, b) => a + b, 0) / responseTimes.length;
     const summary = {
-        總正確率: (correctCount / responseTimes.length * 100).toFixed(2) + '%',
-        答題平均時間: averageTime.toFixed(2) + '秒',
+        總正確率: (correctCount / responseTimes.length * 100).toFixed(2),
+        答題平均時間: averageTime.toFixed(2),
         總花費秒數: totalSeconds.toFixed(2),
-        主任務正確率: (mainCorrect / (responseTimes.length - prospectiveCorrect) * 100).toFixed(2) + '%',
-        前瞻性記憶任務正確率: (prospectiveCorrect / (taskType === 'formal' ? 15 : 6) * 100).toFixed(2) + '%'
+        主任務正確率: (mainCorrect / (responseTimes.length - prospectiveCorrect) * 100).toFixed(2),
+        前瞻性記憶任務正確率: (prospectiveCorrect / (taskType === 'formal' ? 15 : 6) * 100).toFixed(2)
     };
     console.table(summary);
     logs.push({ ...summary });
